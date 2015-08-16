@@ -1,0 +1,41 @@
+<% url = @kbn.new_record? ? project_kbns_path(@project) : project_kbn_path(@project, @kbn) %>
+<%= form_for(@kbn, url: url, class: 'form-horizontal') do |f| %>
+  <% if @kbn.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@kbn.errors.count, "error") %> prohibited this kbn from being saved:</h2>
+
+      <ul>
+      <% @kbn.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+		<label class="col-sm-2 control-label" for="kbn_logical_name">論理名</label>
+		<div class="col-sm-10">
+      <%= f.text_field :logical_name, class: 'form-control', placeholder: '論理名' %>
+		</div>
+	</div>
+
+  <div class="form-group">
+		<label class="col-sm-2 control-label" for="kbn_physical_name">物理名</label>
+		<div class="col-sm-10">
+      <%= f.text_field :physical_name, class: 'form-control', placeholder: '物理名' %>
+		</div>
+	</div>
+
+  <div class="form-group">
+		<label class="col-sm-2 control-label" for="kbn_code">コード</label>
+		<div class="col-sm-10">
+      <%= f.text_field :code, class: 'form-control', placeholder: 'コード' %>
+		</div>
+	</div>
+
+  <div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit '送信', class: 'btn btn-default' %>
+		</div>
+	</div>
+<% end %>

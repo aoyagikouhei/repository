@@ -1,0 +1,35 @@
+<% if @project.present? %>
+  <div class="page-header">
+    <ol class="breadcrumb">
+      <% if @breadcrumb.blank? %>
+        <li class="active"><%= @project.logical_name %></li>
+      <% else %>
+        <li><%= link_to @project.logical_name, project_erds_path(@project) %></li>
+        <% @breadcrumb.each do |it| %>
+          <li class="<%= it[:active] ? "active" : "" %>">
+            <%= link_to_if it[:url], it[:name], it[:url] %>
+          </li>
+        <% end %>
+      <% end %>
+      
+    </ol>
+  </div>
+  
+  <ul class="nav nav-tabs">
+    <li role="presentation" class="<%= controller_name == 'erds' ? 'active' : '' %>">
+      <%= link_to 'ERD', project_erds_path(@project) %>
+    </li>
+    <li role="presentation" class="<%= ['kbns', 'kbn_properties'].include?(controller_name) ? 'active' : '' %>">
+      <%= link_to '区分', project_kbns_path(@project) %>
+    </li>
+    <li role="presentation" class="<%= ['errs', 'err_properties'].include?(controller_name) ? 'active' : '' %>">
+      <%= link_to 'エラー', project_errs_path(@project) %>
+    </li>
+    <li role="presentation" class="<%= ['temps'].include?(controller_name) ? 'active' : '' %>">
+      <%= link_to '雛形', project_temps_path(@project) %>
+    </li>
+    <li role="presentation" class="<%= controller_name == 'projects' && action_name == 'show' ? 'active' : '' %>">
+      <%= link_to 'ユーザ', @project %>
+    </li>
+  </ul>
+<% end %>

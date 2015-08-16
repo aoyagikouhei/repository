@@ -1,0 +1,55 @@
+<%= form_for(@user, class: 'form-horizontal') do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+		<label class="col-sm-2 control-label" for="user_nm">名前</label>
+    <div class="col-sm-10">
+      <%= f.text_field :nm, class: 'form-control', placeholder: '名前' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label" for="user_email">メール</label>
+    <div class="col-sm-10">
+      <%= f.email_field :email, class: 'form-control', placeholder: 'メール' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label" for="user_user_kbn">ユーザ区分</label>
+    <div class="col-sm-10">
+      <%= f.select :user_kbn, KbnConstants::get_select(KbnConstants::USER_KBN), {}, {class: 'form-control'} %>
+    </div>
+	</div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label" for="user_password">パスワード</label>
+    <div class="col-sm-10">
+      <%= f.password_field :password, class: 'form-control', placeholder: 'パスワード' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label" for="user_password_confirmation">パスワード確認</label>
+    <div class="col-sm-10">
+      <%= f.password_field :password_confirmation, class: 'form-control', placeholder: 'パスワード確認' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit '送信', class: 'btn btn-default' %>
+    </div>
+	</div>
+  
+<% end %>

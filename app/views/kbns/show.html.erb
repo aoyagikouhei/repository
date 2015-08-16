@@ -1,0 +1,23 @@
+<table class="table table-hover table-striped">
+  <thead>
+    <tr>
+      <th>論理名</th>
+      <th>物理名</th>
+      <th>コード</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @kbn.kbn_properties.each do |it| %>
+      <tr>
+        <td>
+          <%= link_to it.logical_name, edit_project_kbn_kbn_property_path(@project, @kbn, it) %>
+        </td>
+        <td><%= it.physical_name %></td>
+        <td><%= it.code %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to '新規作成', new_project_kbn_kbn_property_path(@project, @kbn), class: 'btn btn-default' %>

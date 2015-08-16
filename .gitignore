@@ -1,0 +1,13 @@
+/.bundle
+/log/*.log
+/tmp
+*.swp
+*~
+.project
+.DS_Store
+.idea
+.secret
+/config/database.yml
+/config/secrets.yml
+/db/schema.rb
+/vendor/bundler

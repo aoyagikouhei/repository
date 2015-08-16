@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Repository2</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarEexample">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/">リポジトリ2</a>
+		</div>
+		
+		<div class="collapse navbar-collapse" id="navbarEexample">
+      <% if user_signed_in? %>
+  			<ul class="nav navbar-nav">
+          <li class="<%= ["projects", "erds", "kbns", "kbn_properties", "temps", "errs"].include?(controller_name) ? "active" : "" %>">
+            <a href="/projects">プロジェクト</a>
+          </li>
+          <% if current_user.admin? %>
+            <li class="<%= controller_name == "users" ? "active" : "" %>">
+              <a href="/users">ユーザ</a>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+      <p class="navbar-text navbar-right">
+        <% if user_signed_in? %> 
+          <strong><%= current_user.nm %></strong>
+          <%= link_to "パスワード変更", new_password_path, class: 'navbar-link' %>
+          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'navbar-link' %>
+        <% else %>
+          <%= link_to "ログイン", new_user_session_path, class: 'navbar-link' %>
+        <% end %>
+      </p>
+		</div>
+	</div>
+</nav>
+<% if notice %>
+  <p class="notice"><%= notice %></p>
+<% end %>
+<% if alert %>
+  <p class="alert"><%= alert %></p>
+<% end %>
+<div class="container">
+  <%= render 'projects/base' %>
+  <%= yield %>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<table class="table table-hover table-striped">
+  <thead>
+    <tr>
+      <th>名前</th>
+      <th>区分</th>
+      <th>編集</th>
+      <th>削除</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @temps.each do |temp| %>
+      <tr>
+        <td><%= temp.nm %></td>
+        <td><%= KbnConstants::get_logical_name(temp.temp_kbn) %></td>
+        <td><%= link_to 'Edit', edit_project_temp_path(@project, temp) %></td>
+        <td><%= link_to 'Destroy', project_temp_path(@project, temp), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to '新規作成', new_project_temp_path(@project), class: 'btn btn-default' %>

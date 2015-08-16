@@ -1,0 +1,23 @@
+<%= render partial: "temps/combo", locals: {options: {entity_id: @entity.id}} %>
+<table class="table table-hover table-striped">
+  <thead>
+    <tr>
+      <th>論理名</th>
+      <th>物理名</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @entity.properties.each do |property| %>
+      <tr>
+        <td>
+          <%= property.logical_name %>
+        </td>
+        <td>
+          <%= property.physical_name %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

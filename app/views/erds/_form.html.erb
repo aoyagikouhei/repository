@@ -1,0 +1,34 @@
+<% url = @erd.new_record? ? project_erds_path(@project) : project_erd_path(@project, @erd) %>
+<%= form_for(@erd, url: url, class: 'form-horizontal') do |f| %>
+  <% if @erd.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@erd.errors.count, "error") %> prohibited this erd from being saved:</h2>
+
+      <ul>
+      <% @erd.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+		<label class="col-sm-2 control-label" for="erd_nm">名前</label>
+		<div class="col-sm-10">
+      <%= f.text_field :nm, class: 'form-control', placeholder: '名前' %>
+		</div>
+  </div>
+
+  <div class="form-group">
+		<label class="col-sm-2 control-label" for="erd_content">内容</label>
+		<div class="col-sm-10">
+      <%= f.text_area :nm, class: 'form-control' %>
+		</div>
+	</div>
+
+  <div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit '送信', class: 'btn btn-default' %>
+		</div>
+	</div>
+<% end %>

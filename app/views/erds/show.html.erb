@@ -1,0 +1,26 @@
+<table class="table table-hover table-striped">
+  <thead>
+    <tr>
+      <th>論理名</th>
+      <th>物理名</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @erd.entities.each do |entity| %>
+      <tr>
+        <td>
+          <%= link_to entity.logical_name, project_erd_path(@project, @erd) + "/entity/#{entity.id}" %>
+        </td>
+        <td><%= entity.physical_name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= form_tag(project_erd_upload_path(@project, @erd), {:multipart => true}) do %>
+  <%= file_field_tag 'file' %>
+  <br/>
+  <%= submit_tag 'ERD読み込み', class: 'btn btn-default' %>
+<% end %>
+

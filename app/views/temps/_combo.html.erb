@@ -1,0 +1,14 @@
+<% options = {} if options.nil?  %>
+<p>
+  ソース生成
+  <br/>
+  <%= select_tag "temp_kbn", 
+    options_from_collection_for_select(@temps, "id", "nm"), 
+    prompt: '選択してください', 
+    id: 'app-make-source-combo' %>
+  <%= link_to '作成', 'javascript:void(0);', 
+    id: 'app-make-source-link', 
+    class: 'btn btn-default', 
+    'data-query' => options.to_query,
+    'data-url' => project_temps_path(@project) %>
+</p>

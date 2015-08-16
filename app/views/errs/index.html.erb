@@ -1,0 +1,30 @@
+<%= render partial: "temps/combo", locals: {} %>
+
+<table class="table table-hover table-striped">
+  <thead>
+    <tr>
+      <th>論理名</th>
+      <th>物理名</th>
+      <th>コード</th>
+      <th>編集</th>
+      <th>削除</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @errs.each do |err| %>
+      <tr>
+        <td><%= link_to err.logical_name, project_err_path(@project, err) %></td>
+        <td><%= err.physical_name %></td>
+        <td><%= err.code %></td>
+        <td><%= link_to 'Edit', edit_project_err_path(@project, err) %></td>
+        <td><%= link_to 'Destroy', project_err_path(@project, err), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br/>
+
+<%= link_to '新規作成', new_project_err_path(@project), class: 'btn btn-default' %>
+
