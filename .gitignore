@@ -11,3 +11,5 @@
 /config/secrets.yml
 /db/schema.rb
 /vendor/bundler
+/public/assets
+thin.yaml
