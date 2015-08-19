@@ -29,7 +29,8 @@ module ControllerUtil extend ActiveSupport::Concern
 
   def set_project(project_id: nil)
     project_id = params[:project_id] if project_id.blank?
-    @project = Project.find_for_available_id(project_id)
+    @project = Project.find_for_join(current_user.id, project_id: project_id)
+    redirect_to projects_url if @project.blank?
   end
 
   def set_erd(erd_id: nil)

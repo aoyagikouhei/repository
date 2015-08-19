@@ -7,18 +7,17 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @models = Project.find_for_available
+    @projects = Project.find_for_join(current_user.id)
   end
 
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @project = @model
   end
 
   # GET /projects/new
   def new
-    @model = Project.new
+    @project = Project.new
   end
 
   # GET /projects/1/edit
@@ -28,15 +27,15 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    @model = Project.new(project_params.merge(get_create_columns))
+    @project = Project.new(project_params.merge(get_create_columns))
 
     respond_to do |format|
-      if @model.save
+      if @project.save
         format.html { redirect_to projects_url, notice: 'Project was successfully created.' }
-        format.json { render :show, status: :created, location: @model }
+        format.json { render :show, status: :created, location: @project }
       else
         format.html { render :new }
-        format.json { render json: @model.errors, status: :unprocessable_entity }
+        format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -45,12 +44,12 @@ class ProjectsController < ApplicationController
   # PATCH/PUT /projects/1.json
   def update
     respond_to do |format|
-      if @model.update(project_params.merge(get_update_columns))
+      if @project.update(project_params.merge(get_update_columns))
         format.html { redirect_to projects_url, notice: 'Project was successfully updated.' }
-        format.json { render :show, status: :ok, location: @model }
+        format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit }
-        format.json { render json: @model.errors, status: :unprocessable_entity }
+        format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -58,7 +57,7 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1
   # DELETE /projects/1.json
   def destroy
-    @model.update(get_delete_columns)
+    @project.update(get_delete_columns)
     respond_to do |format|
       format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
       format.json { head :no_content }
@@ -66,11 +65,10 @@ class ProjectsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_project
-      @model = Project.find_for_available_id(params[:id])
+      @project = Project.find_for_join(current_user.id, project_id: params[:id])
     end
-
+    
     def set_users
       @users = User.find_for_available
     end
@@ -78,7 +76,8 @@ class ProjectsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
       params.require(:project).permit(
-        :nm,
+        :logical_name,
+        :physical_name,
         join_user_id: [],
         admin_user_id: [],
       )

@@ -1,4 +1,4 @@
-<% if @project.present? %>
+<% if @project.present? && !@project.new_record? %>
   <div class="page-header">
     <ol class="breadcrumb">
       <% if @breadcrumb.blank? %>

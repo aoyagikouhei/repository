@@ -7,8 +7,46 @@ class Project < ActiveRecord::Base
 
   attr_accessor :join_user_id, :admin_user_id
 
+  class << self
+    # 参加しているプロジェクトを取得する
+    def find_for_join(user_id, project_id: nil)
+      sql = <<-EOS
+        SELECT
+          t1.*
+        FROM
+          projects AS t1
+        WHERE
+          t1.deleted_at IS NULL
+          AND EXISTS (
+            SELECT
+              1
+            FROM
+              project_users AS t2
+            WHERE
+              t1.id = t2.project_id
+              AND t2.deleted_at IS NULL
+              AND t2.user_id = :user_id
+          )
+      EOS
+      db_params = { user_id: user_id }
+      if project_id.present? && project_id.to_i > 0
+        # プロジェクトIDがある場合は1件に絞る
+        sql += " AND t1.id = :project_id "
+        db_params.merge!(project_id: project_id)
+        find_by_sql([sql, db_params]).first
+      else
+        find_by_sql([sql, db_params])
+      end
+    end
+  end
+
   private
+  # プロジェクトメンバーを更新する
   def join_project
+    # 削除の時は発動しない
+    if join_user_id.blank? && admin_user_id.blank?
+      return
+    end
     delete_prms = {
       deleted_at: updated_at,
       deleted_id: updated_id,

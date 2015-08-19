@@ -5,16 +5,18 @@
 <table class="table table-hover table-striped">
   <thead>
     <tr>
-      <th>名前</th>
+      <th>論理名</th>
+      <th>物理名</th>
       <th>編集</th>
       <th>削除</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @models.each do |project| %>
+    <% @projects.each do |project| %>
       <tr>
         <td><%= link_to project.logical_name, project_erds_path(project) %></td>
+        <td><%= project.physical_name %></td>
         <td><%= link_to '編集', edit_project_path(project) %></td>
         <td><%= link_to '削除', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

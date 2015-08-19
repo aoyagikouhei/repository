@@ -6,7 +6,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @model.project_users.each do |project_user| %>
+      <% @project.project_users.each do |project_user| %>
         <% if project_user.deleted_at.nil? %>
           <tr>
             <td>
