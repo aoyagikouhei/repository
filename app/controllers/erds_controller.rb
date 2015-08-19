@@ -7,7 +7,7 @@ class ErdsController < ApplicationController
   # GET /erds
   # GET /erds.json
   def index
-    @erds = Erd.find_for_available
+    @erds = Erd.find_for_available(@project.id)
   end
 
   # GET /erds/1

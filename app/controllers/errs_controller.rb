@@ -7,7 +7,7 @@ class ErrsController < ApplicationController
   # GET /errs.json
   def index
     @temps = Temp.find_for_output(KbnConstants::TEMP_KBN_ERROR)
-    @errs = Err.find_for_available.order('code ASC')
+    @errs = Err.find_for_available(@project.id)
   end
 
   # GET /errs/1
