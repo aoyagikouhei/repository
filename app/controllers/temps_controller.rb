@@ -6,7 +6,7 @@ class TempsController < ApplicationController
   # GET /temps
   # GET /temps.json
   def index
-    @temps = Temp.find_for_available
+    @temps = Temp.find_for_available(@project.id)
   end
 
   def show
