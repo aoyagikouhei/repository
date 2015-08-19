@@ -6,7 +6,7 @@ class KbnsController < ApplicationController
   # GET /kbns
   # GET /kbns.json
   def index
-    @temps = Temp.find_for_output(KbnConstants::TEMP_KBN_KBN)
+    @temps = Temp.find_for_output(@project.id, KbnConstants::TEMP_KBN_KBN)
     @kbns = Kbn.find_for_available(@project.id)
   end
 

@@ -103,7 +103,7 @@ class ErdsController < ApplicationController
   end
 
   def entity
-    @temps = Temp.find_for_output(KbnConstants::TEMP_KBN_TABLE)
+    @temps = Temp.find_for_output(@project.id, KbnConstants::TEMP_KBN_TABLE)
     @entity = Entity.find_for_available_id(params[:id])
     @breadcrumb = [
       {

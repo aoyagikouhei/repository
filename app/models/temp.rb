@@ -6,8 +6,8 @@ class Temp < ActiveRecord::Base
       where_for_null_at.where(project_id: project_id).order('temp_kbn ASC').all
     end
 
-    def find_for_output(value)
-      where_for_null_at.where('temp_kbn = ?' ,value)
+    def find_for_output(project_id, value)
+      where_for_null_at.where(temp_kbn: value, project_id: project_id).all
     end
   end
 end
