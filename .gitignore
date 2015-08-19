@@ -13,3 +13,4 @@
 /vendor/bundler
 /public/assets
 thin.yaml
+Gemfile.lock
