@@ -7,7 +7,7 @@ class Err < ActiveRecord::Base
 
   class << self
     def find_for_available(project_id)
-      where_for_null_at.where(project_id: project_id)..order('code ASC').all
+      where_for_null_at.where(project_id: project_id).order('code ASC').all
     end
   end
 end
