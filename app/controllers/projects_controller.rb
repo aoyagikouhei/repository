@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   include ControllerUtil
   before_action :authenticate_user!
   before_action :set_project, only: [:show, :edit, :update, :destroy]
-  before_action :set_users, only: [:new, :edit]
+  before_action :set_users, only: [:new, :edit, :create, :update]
 
   # GET /projects
   # GET /projects.json

@@ -13,8 +13,8 @@
         <td>
           <%= link_to it.logical_name, edit_project_kbn_kbn_property_path(@project, @kbn, it) %>
         </td>
-        <td><%= it.physical_name %></td>
-        <td><%= it.code %></td>
+        <td><%= "#{it.physical_name} (#{@kbn.physical_name.upcase}_#{it.physical_name.upcase})" %></td>
+        <td><%= "#{it.code} (#{@kbn.code}#{it.code})" %></td>
       </tr>
     <% end %>
   </tbody>

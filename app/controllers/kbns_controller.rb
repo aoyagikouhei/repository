@@ -14,7 +14,7 @@ class KbnsController < ApplicationController
   # GET /kbns/1.json
   def show
     @breadcrumb = [{
-      name: @kbn.logical_name,
+      name: "#{@kbn.logical_name} (#{@kbn.physical_name.upcase} : #{@kbn.code})",
       active: true
     }]
   end

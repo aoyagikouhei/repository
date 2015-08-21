@@ -7,6 +7,9 @@ class Project < ActiveRecord::Base
 
   attr_accessor :join_user_id, :admin_user_id
 
+  validates :logical_name, presence: true
+  validates :physical_name, presence: true, uniqueness: { conditions: -> { where("deleted_at IS NULL") } }
+
   class << self
     # 参加しているプロジェクトを取得する
     def find_for_join(user_id, project_id: nil)

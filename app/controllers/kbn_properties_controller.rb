@@ -66,7 +66,7 @@ class KbnPropertiesController < ApplicationController
       @kbn = Kbn.find_for_available_id(params[:kbn_id])
       @breadcrumb = [
         {
-          name: @kbn.logical_name,
+          name: "#{@kbn.logical_name} (#{@kbn.physical_name.upcase} : #{@kbn.code})",
           active: true
         }
       ]
