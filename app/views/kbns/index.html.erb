@@ -17,8 +17,8 @@
         <td><%= link_to kbn.logical_name, project_kbn_path(@project, kbn) %></td>
         <td><%= kbn.physical_name %></td>
         <td><%= kbn.code %></td>
-        <td><%= link_to 'Edit', edit_project_kbn_path(@project, kbn) %></td>
-        <td><%= link_to 'Destroy', project_kbn_path(@project, kbn), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to '編集', edit_project_kbn_path(@project, kbn) %></td>
+        <td><%= link_to '削除', project_kbn_path(@project, kbn), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

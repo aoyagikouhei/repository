@@ -17,8 +17,8 @@
         <td><%= link_to err.logical_name, project_err_path(@project, err) %></td>
         <td><%= err.physical_name %></td>
         <td><%= err.code %></td>
-        <td><%= link_to 'Edit', edit_project_err_path(@project, err) %></td>
-        <td><%= link_to 'Destroy', project_err_path(@project, err), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to '編集', edit_project_err_path(@project, err) %></td>
+        <td><%= link_to '削除', project_err_path(@project, err), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

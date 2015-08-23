@@ -13,8 +13,8 @@
       <tr>
         <td><%= temp.nm %></td>
         <td><%= KbnConstants::get_logical_name(temp.temp_kbn) %></td>
-        <td><%= link_to 'Edit', edit_project_temp_path(@project, temp) %></td>
-        <td><%= link_to 'Destroy', project_temp_path(@project, temp), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to '編集', edit_project_temp_path(@project, temp) %></td>
+        <td><%= link_to '削除', project_temp_path(@project, temp), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
