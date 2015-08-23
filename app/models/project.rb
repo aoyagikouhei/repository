@@ -11,25 +11,48 @@ class Project < ActiveRecord::Base
   validates :physical_name, presence: true, uniqueness: { conditions: -> { where("deleted_at IS NULL") } }
 
   class << self
+    # プロジェクト一覧を取得する。参加しているかどうかわかる。
+    def find_for_with_join(user_id)
+      sql = <<-EOS
+        SELECT
+          t1.*
+          ,STRING_AGG(CASE WHEN t2.admin_flag THEN t3.nm ELSE NULL END, ',') AS admins
+          ,bool_or(t2.user_id = :user_id) AS join_flag
+          ,bool_or(t2.admin_flag = TRUE AND t2.user_id = :user_id) AS admin_flag
+        FROM
+          projects AS t1
+          INNER JOIN project_users AS t2 ON (
+            t1.id = t2.project_id
+            AND t2.deleted_at IS NULL
+          )
+          INNER JOIN users AS t3 ON (
+            t2.user_id = t3.id
+            AND t3.deleted_at IS NULL
+          )
+        WHERE
+          t1.deleted_at IS NULL
+        GROUP BY
+          t1.id
+      EOS
+      db_params = { user_id: user_id }
+      find_by_sql([sql, db_params])
+    end
+
     # 参加しているプロジェクトを取得する
     def find_for_join(user_id, project_id: nil)
       sql = <<-EOS
         SELECT
           t1.*
+          ,t2.admin_flag
         FROM
           projects AS t1
+          INNER JOIN project_users AS t2 ON (
+            t1.id = t2.project_id
+            AND t2.deleted_at IS NULL
+            AND t2.user_id = :user_id
+          )
         WHERE
           t1.deleted_at IS NULL
-          AND EXISTS (
-            SELECT
-              1
-            FROM
-              project_users AS t2
-            WHERE
-              t1.id = t2.project_id
-              AND t2.deleted_at IS NULL
-              AND t2.user_id = :user_id
-          )
       EOS
       db_params = { user_id: user_id }
       if project_id.present? && project_id.to_i > 0

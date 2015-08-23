@@ -3,11 +3,12 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project, only: [:show, :edit, :update, :destroy]
   before_action :set_users, only: [:new, :edit, :create, :update]
+  before_action :check_admin, only: [:edit, :update, :destroy]
 
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.find_for_join(current_user.id)
+    @projects = Project.find_for_with_join(current_user.id)
   end
 
   # GET /projects/1
@@ -71,6 +72,11 @@ class ProjectsController < ApplicationController
     
     def set_users
       @users = User.find_for_available
+    end
+
+    # 管理者チェック
+    def check_admin
+      redirect_to projects_url if !@project.admin_flag
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

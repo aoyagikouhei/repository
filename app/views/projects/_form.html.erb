@@ -32,7 +32,7 @@
         <tr>
           <th>参加</th>
           <th>管理</th>
-          <th>メール</th>
+          <th>名前</th>
         </tr>
         <% @users.each do |user| %>
           <tr>
@@ -51,7 +51,7 @@
               %>
             </td>
             <td>
-              <%= user.email %>
+              <%= user.nm %>
             </td>
           </tr>
         <% end %>

@@ -1,4 +1,4 @@
-<% if @project.present? && !@project.new_record? %>
+<% if @project.present? && !@project.new_record? && (controller_name != 'projects' || action_name == 'show') %>
   <div class="page-header">
     <ol class="breadcrumb">
       <% if @breadcrumb.blank? %>
