@@ -73,6 +73,10 @@ Rails.application.routes.draw do
     resources :errs do
       resources :err_properties, except: [:show, :index]
     end
-    resources :temps
+    resources :temps do
+      collection do
+        post "copy"
+      end
+    end
   end
 end

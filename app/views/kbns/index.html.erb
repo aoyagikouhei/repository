@@ -29,10 +29,5 @@
 <br/>
 
 <%= link_to '新規作成', new_project_kbn_path(@project), class: 'btn btn-default' %>
-
-<%= select_tag "dst_project_id", 
-  options_from_collection_for_select(@projects, "id", "logical_name"), 
-  prompt: '選択してください', 
-  id: 'app-copy' %>
-<%= submit_tag "コピー" %>
+<%= render partial: 'copy' %>
 <% end %>

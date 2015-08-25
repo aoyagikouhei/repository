@@ -68,6 +68,26 @@ class TempsController < ApplicationController
     end
   end
 
+  # コピー処理
+  def copy
+    # 有効なプロジェクト先か判定
+    dst_project_id = params[:dst_project_id].to_i
+    dst_project = @joined_projects.find{|project| project.id == dst_project_id}
+    redirect_to project_temps_path(@project) if dst_project.blank?
+
+    # 有効な区分チェック
+    temps = Temp.find_for_copy(@project.id, params[:temp_id])
+    temps.each do |temp|
+      # コピー
+      dst_temp = temp.dup
+      dst_temp.project_id = params[:dst_project_id]
+      dst_temp.save()
+    end
+
+    # コピー先のプロジェクトに移動
+    redirect_to project_temps_path(params[:dst_project_id])
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_temp

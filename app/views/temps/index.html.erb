@@ -1,6 +1,8 @@
+<%= form_tag copy_project_temps_path(@project), method: "post" do %>
 <table class="table table-hover table-striped">
   <thead>
     <tr>
+      <th>選択</th>
       <th>名前</th>
       <th>区分</th>
       <th>編集</th>
@@ -11,6 +13,7 @@
   <tbody>
     <% @temps.each do |temp| %>
       <tr>
+        <td><%= check_box_tag "temp_id[]", temp.id %> </td>
         <td><%= temp.nm %></td>
         <td><%= KbnConstants::get_logical_name(temp.temp_kbn) %></td>
         <td><%= link_to '編集', edit_project_temp_path(@project, temp) %></td>
@@ -23,3 +26,5 @@
 <br>
 
 <%= link_to '新規作成', new_project_temp_path(@project), class: 'btn btn-default' %>
+<%= render partial: 'kbns/copy' %>
+<% end %>

@@ -7,7 +7,6 @@ class KbnsController < ApplicationController
   # GET /kbns.json
   def index
     @temps = Temp.find_for_output(@project.id, KbnConstants::TEMP_KBN_KBN)
-    @projects = Project.find_for_join(current_user.id, except_project_id: @project.id)
     @kbns = Kbn.find_for_available(@project.id)
   end
 
@@ -74,14 +73,24 @@ class KbnsController < ApplicationController
   # コピー処理
   def copy
     # 有効なプロジェクト先か判定
-    dst_project = Project.find_for_join(current_user.id, project_id: params[:dst_project_id])
+    dst_project_id = params[:dst_project_id].to_i
+    dst_project = @joined_projects.find{|project| project.id == dst_project_id}
     redirect_to project_kbns_path(@project) if dst_project.blank?
 
     # 有効な区分チェック
     kbns = Kbn.find_for_copy(@project.id, params[:kbn_id])
     kbns.each do |kbn|
       # kbnコピー
+      dst_kbn = kbn.dup
+      dst_kbn.project_id = dst_project_id
+      dst_kbn.save()
+
       # kbn_propertyコピー
+      kbn.kbn_properties.each do |kbn_property|
+        dst_kbn_property = kbn_property.dup
+        dst_kbn_property.kbn_id = dst_kbn.id
+        dst_kbn_property.save()
+      end
     end
 
     # コピー先のプロジェクトに移動

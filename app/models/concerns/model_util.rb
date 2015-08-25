@@ -16,6 +16,13 @@ module ModelUtil extend ActiveSupport::Concern
       where_for_null_at.where("id = ?", id).first
     end
 
+    # コピー用に検索
+    def find_for_copy(project_id, id_array)
+      where_for_null_at.
+        where(project_id: project_id).
+        where("id = ANY(?)", make_id_array(id_array))
+    end
+
     def make_id_array(v)
       if v.is_a?(Array)
         # 配列で与えられた

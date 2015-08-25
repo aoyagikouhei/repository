@@ -29,7 +29,13 @@ module ControllerUtil extend ActiveSupport::Concern
 
   def set_project(project_id: nil)
     project_id = params[:project_id] if project_id.blank?
-    @project = Project.find_for_join(current_user.id, project_id: project_id)
+    list = Project.find_for_join(current_user.id)
+    @project = nil
+    @joined_projects = []
+    list.each do |it|
+      @project = it if it.id == project_id.to_i
+      @joined_projects << it if it.id != project_id.to_i
+    end
     redirect_to projects_url if @project.blank?
   end
 

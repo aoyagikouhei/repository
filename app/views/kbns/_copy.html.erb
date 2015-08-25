@@ -1,0 +1,7 @@
+<div>
+  <%= select_tag "dst_project_id", 
+    options_from_collection_for_select(@joined_projects, "id", "logical_name"), 
+    prompt: '選択してください' 
+  %>
+  <%= submit_tag "コピー" %>
+</div>
