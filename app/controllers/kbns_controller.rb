@@ -7,6 +7,7 @@ class KbnsController < ApplicationController
   # GET /kbns.json
   def index
     @temps = Temp.find_for_output(@project.id, KbnConstants::TEMP_KBN_KBN)
+    @projects = Project.find_for_join(current_user.id, except_project_id: @project.id)
     @kbns = Kbn.find_for_available(@project.id)
   end
 
@@ -68,6 +69,23 @@ class KbnsController < ApplicationController
       format.html { redirect_to project_kbns_path(@project), notice: 'Kbn was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  # コピー処理
+  def copy
+    # 有効なプロジェクト先か判定
+    dst_project = Project.find_for_join(current_user.id, project_id: params[:dst_project_id])
+    redirect_to project_kbns_path(@project) if dst_project.blank?
+
+    # 有効な区分チェック
+    kbns = Kbn.find_for_copy(@project.id, params[:kbn_id])
+    kbns.each do |kbn|
+      # kbnコピー
+      # kbn_propertyコピー
+    end
+
+    # コピー先のプロジェクトに移動
+    redirect_to project_kbns_path(params[:dst_project_id])
   end
 
   private

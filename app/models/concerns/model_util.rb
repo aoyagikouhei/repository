@@ -16,6 +16,34 @@ module ModelUtil extend ActiveSupport::Concern
       where_for_null_at.where("id = ?", id).first
     end
 
+    def make_id_array(v)
+      if v.is_a?(Array)
+        # 配列で与えられた
+        "{#{v.join(",")}}"
+      else
+        # 文字列で与えられた
+        value = v.to_s
+
+        # カンマで分解
+        ary = value.split(/,/)
+
+        # 数値だけ回収
+        id_array = ary.inject([]) do |res, it|
+          integer_value = it.to_i
+          if integer_value.present? && integer_value > 0
+            res << integer_value 
+          end
+          res
+        end
+
+        id_array.present? ? "{#{id_array.join(",")}}" : nil
+      end
+    end
+
+    def make_kbn_array(v)
+      "{#{ v.is_a?(Array) ? v.join(",") : v }}"
+    end
+
     # ストアードプロシージャーを実行する
     def find_for_sp(name, db_params)
       # パラメーターに応じてSQLを構築
@@ -24,33 +52,12 @@ module ModelUtil extend ActiveSupport::Concern
 
       # 配列などのパラメーター調整
       db_params.each do |k, v|
-        # ID配列
         if k =~ /_id_array$/ 
-          if v.is_a?(Array)
-            # 配列で与えられた
-            db_params[k] = "{#{v.join(",")}}"
-          else
-            # 文字列で与えられた
-            value = v.to_s
-
-            # カンマで分解
-            ary = value.split(/,/)
-
-            # 数値だけ回収
-            id_array = ary.inject([]) do |res, it|
-              integer_value = it.to_i
-              if integer_value.present? && integer_value > 0
-                res << integer_value 
-              end
-              res
-            end
-
-            # 配列のリテラルで最代入
-            db_params[k] = id_array.present? ? "{#{id_array.join(",")}}" : nil
-          end
+          # ID配列
+          db_params[k] = make_id_array(v)
         elsif k =~ /_kbn_array$/
           # 区分配列
-          db_params[k] = "{#{ v.is_a?(Array) ? v.join(",") : v }}"
+          db_params[k] = make_kbn_array(v)
         end
       end
 

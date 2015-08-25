@@ -1,8 +1,9 @@
 <%= render partial: "temps/combo", locals: {} %>
-
+<%= form_tag copy_project_kbns_path(@project), method: "post" do %>
 <table class="table table-hover table-striped">
   <thead>
     <tr>
+      <th>選択</th>
       <th>論理名</th>
       <th>物理名</th>
       <th>コード</th>
@@ -14,6 +15,7 @@
   <tbody>
     <% @kbns.each do |kbn| %>
       <tr>
+        <td><%= check_box_tag "kbn_id[]", kbn.id %> </td>
         <td><%= link_to kbn.logical_name, project_kbn_path(@project, kbn) %></td>
         <td><%= kbn.physical_name %></td>
         <td><%= kbn.code %></td>
@@ -27,3 +29,10 @@
 <br/>
 
 <%= link_to '新規作成', new_project_kbn_path(@project), class: 'btn btn-default' %>
+
+<%= select_tag "dst_project_id", 
+  options_from_collection_for_select(@projects, "id", "logical_name"), 
+  prompt: '選択してください', 
+  id: 'app-copy' %>
+<%= submit_tag "コピー" %>
+<% end %>

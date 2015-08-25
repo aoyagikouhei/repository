@@ -66,6 +66,9 @@ Rails.application.routes.draw do
     end
     resources :kbns do
       resources :kbn_properties, except: [:show, :index]
+      collection do
+        post "copy"
+      end
     end
     resources :errs do
       resources :err_properties, except: [:show, :index]

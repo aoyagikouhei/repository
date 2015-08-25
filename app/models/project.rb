@@ -39,7 +39,7 @@ class Project < ActiveRecord::Base
     end
 
     # 参加しているプロジェクトを取得する
-    def find_for_join(user_id, project_id: nil)
+    def find_for_join(user_id, project_id: nil, except_project_id: nil)
       sql = <<-EOS
         SELECT
           t1.*
@@ -55,6 +55,10 @@ class Project < ActiveRecord::Base
           t1.deleted_at IS NULL
       EOS
       db_params = { user_id: user_id }
+      if except_project_id.present? && except_project_id.to_i > 0
+        sql += " AND t1.id <> :except_project_id "
+        db_params[:except_project_id] = except_project_id
+      end
       if project_id.present? && project_id.to_i > 0
         # プロジェクトIDがある場合は1件に絞る
         sql += " AND t1.id = :project_id "

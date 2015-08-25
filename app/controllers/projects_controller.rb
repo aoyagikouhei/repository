@@ -14,7 +14,9 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
+    @users = ProjectUser.find_for_project_users(@project.id)
   end
+
 
   # GET /projects/new
   def new
