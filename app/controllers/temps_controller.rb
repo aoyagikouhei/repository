@@ -11,6 +11,7 @@ class TempsController < ApplicationController
 
   def show
     kbns = Kbn.find_for_available(@project.id)
+    errs = Err.find_for_available(@project.id)
     entity = Entity.find_for_available_id(params[:entity_id]) if params[:entity_id].present?
     erb = ERB.new(@temp.content)
     @content = erb.result(binding)
