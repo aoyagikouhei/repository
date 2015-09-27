@@ -27,5 +27,4 @@ module Web
     config.active_record.default_timezone = :local
   end
 end
-require 'active_record_extentions'
 require 'kbn_constants'
