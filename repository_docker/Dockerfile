@@ -33,11 +33,8 @@ RUN \
 # bundle install に必要なファイルのみ先にコピーする
 COPY Gemfile $APP_ROOT_DIR/
 
-COPY docker/.pgpass /home/$USER
-
 # $USERに所有権付与
-RUN chown -R $USER $APP_ROOT_DIR $DB_DIR /home/$USER/.pgpass && \
-  chmod 600 /home/$USER/.pgpass
+RUN chown -R $USER $APP_ROOT_DIR $DB_DIR
 
 # ユーザ切り替え
 USER $USER
