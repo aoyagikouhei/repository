@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'rober/reader'
 class ErdsController < ApplicationController
   include ControllerUtil
@@ -16,7 +17,8 @@ class ErdsController < ApplicationController
     @breadcrumb = [{
       name: @erd.nm,
       active: true
-    }]
+                   }]
+    @temps = Temp.find_for_output(@project.id, KbnConstants::TEMP_KBN_TABLE)
   end
 
   # GET /erds/new

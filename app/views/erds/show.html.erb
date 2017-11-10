@@ -6,21 +6,26 @@
     </tr>
   </thead>
 
+  <%= form_tag(project_temp_path, method: "get") do %>
+  <%= render partial: "temps/combo", locals: {} %>
   <tbody>
     <% @erd.entities.each do |entity| %>
-      <tr>
-        <td>
-          <%= link_to entity.logical_name, project_erd_path(@project, @erd) + "/entity/#{entity.id}" %>
-        </td>
-        <td><%= entity.physical_name %></td>
-      </tr>
+    <tr>
+      <td><%= check_box_tag("entity_id[]", entity.id)%></td>
+      <td>
+        <%= link_to entity.logical_name, project_erd_path(@project, @erd) + "/entity/#{entity.id}" %>
+      </td>
+      <td><%= entity.physical_name %></td>
+    </tr>
     <% end %>
+    <%= submit_tag " 一括出力" %>
   </tbody>
+  <% end %>
 </table>
 
 <%= form_tag(project_erd_upload_path(@project, @erd), {:multipart => true}) do %>
-  <%= file_field_tag 'file' %>
-  <br/>
-  <%= submit_tag 'ERD読み込み', class: 'btn btn-default' %>
+<%= file_field_tag 'file' %>
+<br/>
+<%= submit_tag 'ERD読み込み', class: 'btn btn-default' %>
 <% end %>
 

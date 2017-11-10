@@ -1,3 +1,6 @@
+# coding: utf-8
+require "zip"
+
 class TempsController < ApplicationController
   include ControllerUtil
   before_action :set_temp, only: [:show, :edit, :update, :destroy]
@@ -10,12 +13,35 @@ class TempsController < ApplicationController
   end
 
   def show
+    @content = ""
     kbns = Kbn.find_for_available(@project.id)
     errs = Err.find_for_available(@project.id)
-    entity = Entity.find_for_available_id(params[:entity_id]) if params[:entity_id].present?
+    entity_ids = params[:entity_id]
     erb = ERB.new(@temp.content)
-    @content = erb.result(binding)
-    render layout: false
+
+    if entity_ids.respond_to?(:each)
+      temp_zip = "#{Rails.root}/tmp/sample.zip"
+      Zip::File.open(temp_zip, Zip::File::CREATE) do |zip|
+        entity_ids.each do |item|
+          entity = Entity.find_for_available_id(item)
+          Tempfile.open("temp") do |f|
+            f.puts(erb.result(binding))
+            zip.add(entity.physical_name + ".sql", f)
+          end
+        end
+      end
+      
+      send_data File.read(temp_zip),
+        type: 'application/zip',
+        filename: ( "tables" + '.zip')  and File.unlink(temp_zip)
+ 
+      
+    else
+      entity = Entity.find_for_available_id(entity_ids)
+      @content = erb.result(binding)
+      render(layout: false) and return
+    end
+    
   end
 
   # GET /temps/new
@@ -31,8 +57,8 @@ class TempsController < ApplicationController
   # POST /temps.json
   def create
     @temp = Temp.new(temp_params.merge(get_create_columns).merge(
-      project_id: @project.id
-    ))
+                       project_id: @project.id
+                     ))
 
     respond_to do |format|
       if @temp.save
@@ -90,17 +116,17 @@ class TempsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_temp
-      @temp = Temp.find_for_available_id(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_temp
+    @temp = Temp.find_for_available_id(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def temp_params
-      params.require(:temp).permit(
-        :nm,
-        :temp_kbn,
-        :content
-      )
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def temp_params
+    params.require(:temp).permit(
+      :nm,
+      :temp_kbn,
+      :content
+    )
+  end
 end
