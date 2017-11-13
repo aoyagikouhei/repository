@@ -17,7 +17,7 @@ class ErdsController < ApplicationController
     @breadcrumb = [{
       name: @erd.nm,
       active: true
-                   }]
+    }]
     @temps = Temp.find_for_output(@project.id, KbnConstants::TEMP_KBN_TABLE)
   end
 

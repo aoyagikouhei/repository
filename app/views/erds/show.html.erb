@@ -11,7 +11,7 @@
   <tbody>
     <% @erd.entities.each do |entity| %>
     <tr>
-      <td><%= check_box_tag("entity_id[]", entity.id)%></td>
+      <td><%= check_box_tag("entity_id[]", entity.id, checked: true)%></td>
       <td>
         <%= link_to entity.logical_name, project_erd_path(@project, @erd) + "/entity/#{entity.id}" %>
       </td>

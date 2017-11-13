@@ -56,9 +56,7 @@ class TempsController < ApplicationController
   # POST /temps
   # POST /temps.json
   def create
-    @temp = Temp.new(temp_params.merge(get_create_columns).merge(
-                       project_id: @project.id
-                     ))
+    @temp = Temp.new(temp_params.merge(get_create_columns).merge(project_id: @project.id))
 
     respond_to do |format|
       if @temp.save
