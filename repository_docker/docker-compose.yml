@@ -11,8 +11,6 @@ services:
     volumes:
       - ../../repository:/var/www/web
       - ../db:/var/www/db
-      - /var/www/web/.bundle
-      - /var/www/web/vendor
     environment:
       RAILS_ENV: development
     env_file:

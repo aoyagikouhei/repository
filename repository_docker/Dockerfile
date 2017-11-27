@@ -31,7 +31,7 @@ RUN \
   mkdir -p $APP_ROOT_DIR $DB_DIR
 
 # bundle install に必要なファイルのみ先にコピーする
-COPY Gemfile $APP_ROOT_DIR/
+COPY Gemfile* $APP_ROOT_DIR/
 
 # $USERに所有権付与
 RUN chown -R $USER $APP_ROOT_DIR $DB_DIR
@@ -47,4 +47,4 @@ RUN \
   gem update --system && \
   gem install bundler && \
   bundle config --global jobs 2 && \
-  bundle install --path=vendor/bundler
+  bundle install

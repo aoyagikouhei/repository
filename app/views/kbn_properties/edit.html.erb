@@ -2,4 +2,13 @@
 
 <%= render 'form' %>
 
-<%= link_to '一覧へ戻る', project_kbn_path(@project, @kbn), class: 'btn btn-default' %>
+<%= link_to '一覧へ戻る',
+  project_kbn_path(@project, @kbn),
+  class: 'btn btn-default'
+%>
+<%= link_to '削除する',
+  project_kbn_kbn_property_path(@project, @kbn, @kbn_property),
+  method: :delete,
+  class: 'btn btn-danger pull-right',
+  data: { confirm: '削除します。よろしいですか?' }
+%>
