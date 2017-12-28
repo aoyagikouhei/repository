@@ -7,5 +7,5 @@ rsync -avz --delete --chmod=Da+xr,Du+w,Fa+r,Fu+w --exclude-from="$EXCLUDE" "$BAS
 ssh "$DST_HOST" bash -ls <<EOT
 [ -f ~/.bash_profile ] && . ~/.bash_profile || . ~/.profile
 export SECRET_KEY_BASE=`bundle exec rake secret`
-cd "$DEST_DIR" && bundle install --path=vendor/bundler && bundle exec rake npm:install assets:precompile && bundle exec thin restart -C thin.yaml
+cd "$DEST_DIR" && bundle install --path=vendor/bundler && bundle exec thin restart -C thin.yaml
 EOT
