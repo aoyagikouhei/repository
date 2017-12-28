@@ -16,3 +16,4 @@ config/initializers/devise.rb
 .git/
 lib/active_record_extentions.rb
 thin.yaml
+repository_docker/
