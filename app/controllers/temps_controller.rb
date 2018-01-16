@@ -30,12 +30,9 @@ class TempsController < ApplicationController
           end
         end
       end
-      
       send_data File.read(temp_zip),
         type: 'application/zip',
         filename: ( "tables" + '.zip')  and File.unlink(temp_zip)
- 
-      
     else
       entity = Entity.find_for_available_id(entity_ids)
       @content = erb.result(binding)
@@ -116,7 +113,8 @@ class TempsController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_temp
-    @temp = Temp.find_for_available_id(params[:id])
+    prms = params[:temp_kbn].nil? ? params[:id] : params[:temp_kbn]
+    @temp = Temp.find_for_available_id(prms)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
