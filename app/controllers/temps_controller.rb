@@ -32,13 +32,13 @@ class TempsController < ApplicationController
       end
       send_data File.read(temp_zip),
         type: 'application/zip',
-        filename: ( "tables" + '.zip')  and File.unlink(temp_zip)
+        filename: ( "#{ @temp.nm }.zip" )  and File.unlink(temp_zip)
     else
       entity = Entity.find_for_available_id(entity_ids)
       @content = erb.result(binding)
       render(layout: false) and return
     end
-    
+
   end
 
   # GET /temps/new
