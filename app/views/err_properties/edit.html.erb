@@ -3,4 +3,9 @@
 <%= render 'form' %>
 
 <%= link_to '一覧に戻る', project_err_path(@project, @err), class: 'btn btn-default' %>
-
+<%= link_to '削除する',
+  project_err_err_property_path(@project, @err, @err_property),
+  method: :delete,
+  class: 'btn btn-danger pull-right',
+  data: { confirm: '削除します。よろしいですか?' }
+%>
