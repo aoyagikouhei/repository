@@ -1,5 +1,6 @@
 # coding: utf-8
 require "zip"
+require 'securerandom'
 
 class TempsController < ApplicationController
   include ControllerUtil
@@ -20,19 +21,23 @@ class TempsController < ApplicationController
     erb = ERB.new(@temp.content)
 
     if entity_ids.respond_to?(:each)
-      temp_zip = "#{Rails.root}/tmp/sample.zip"
-      Zip::File.open(temp_zip, Zip::File::CREATE) do |zip|
-        entity_ids.each do |item|
-          entity = Entity.find_for_available_id(item)
-          Tempfile.open("temp") do |f|
-            f.puts(erb.result(binding))
-            zip.add(entity.physical_name + ".sql", f)
+      temp_zip = "#{Rails.root}/tmp/#{ SecureRandom.uuid }.zip"
+      begin
+        Zip::File.open(temp_zip, Zip::File::CREATE) do |zip|
+          entity_ids.each do |item|
+            entity = Entity.find_for_available_id(item)
+            Tempfile.open("temp") do |f|
+              f.puts(erb.result(binding))
+              zip.add(entity.physical_name + ".sql", f)
+            end
           end
         end
+        send_data File.read(temp_zip),
+          type: 'application/zip',
+          filename: ( "#{ @temp.nm }.zip" )
+      ensure
+        File.unlink(temp_zip)
       end
-      send_data File.read(temp_zip),
-        type: 'application/zip',
-        filename: ( "#{ @temp.nm }.zip" )  and File.unlink(temp_zip)
     else
       entity = Entity.find_for_available_id(entity_ids)
       @content = erb.result(binding)
